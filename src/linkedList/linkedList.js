@@ -1,60 +1,147 @@
-function Node(element) {
-    this.element = element;
-    this.next = null;
-}
+import LinkedListNode from "./LinkedListNode";
 
-function LList() {
-    this.head = new Node("head");
-    this.find = find;
-    this.insert = insert;
-    this.remove = remove;
-    this.findPrevious = findPrevious;
-    this.display = display;
-}
+export default class LinkedList {
 
-function find(item) {
-    let currNode = this.head;
-    while (currNode.element != item) {
-        currNode = currNode.next;
+    constructor() {
+        this.head = null;
+        this.tail = null;
     }
 
-    return currNode;
-}
+    append(value) {
+        const newNode = new LinkedListNode(value);
 
-function insert(newElement, item) {
-    const newNode = new Node(newElement);
-    const current = this.find(item);
-    newNode.next = current.next;
-    current.next = newNode;
-}
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+            return this;
+        }
 
-function findPrevious(item) {
-    let currNode = this.head;
-    while (!(currNode.next === null) && (currNode.next.element != item)) {
-        currNode = currNode.next;
+        this.tail.next = newNode;
+        this.tail = newNode;
+
+        return this;
     }
-    return currNode;
-}
 
-function remove(item) {
-    let prevNode = this.findPrevious(item);
-    if (!(prevNode.next === null)) {
-        prevNode.next = prevNode.next.next;
+    prepend(value) {
+        const newNode = new LinkedListNode(value);
+
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+            return this;
+        }
+
+        newNode.next = this.head;
+        this.head = newNode;
+        return this;
+    }
+
+    delete(value) {
+        let currentNode = this.head;
+        let previousNode = currentNode;
+
+        while (currentNode) {
+            if (currentNode.value === value) {
+                previousNode.next = currentNode.next;
+
+                return this;
+            }
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        return null;
+    }
+
+    deleteTail() {
+
+        const deletedTail = this.tail;
+
+        if (!deletedTail) {
+            return deletedTail;
+        }
+
+        if (this.tail === this.head) {
+            this.tail = null;
+            this.head = null;
+
+            return deletedTail;
+        }
+
+        let currentNode = this.head;
+
+        while (currentNode.next) {
+
+            if (!currentNode.next.next) {
+                currentNode.next = null;
+            } else {
+                currentNode = currentNode.next;
+            }
+        }
+
+        this.tail = currentNode;
+
+        return deletedTail;
+    }
+
+    deleteHead() {
+        const deleteHead = this.head;
+
+        if (!deleteHead) {
+            return deleteHead;
+        }
+
+        if (deleteHead === this.tail) {
+            this.head = null;
+            this.tail = null;
+
+            return deleteHead;
+        }
+
+        this.head = this.head.next;
+
+        return deleteHead;
+    }
+
+    find({value}) {
+        let currentNode = this.head;
+
+        while (currentNode) {
+            if (currentNode.value === value) {
+                return currentNode;
+            }
+            currentNode = currentNode.next;
+        }
+
+        return null;
+    }
+
+    reverse() {
+        let previousNode = null;
+        let nextNode = null;
+        let currentNode = this.head;
+
+        while (currentNode) {
+            nextNode = currentNode.next; // 다음 노드를 저장
+            currentNode.next = previousNode; // 다음 링크를 이전 노드로 설정
+            previousNode = currentNode; // 이전 노드는 현재 노드로 설정해서 이전 노드를 가르키도록
+            currentNode = nextNode; // 현재 노드 위치를 다음 노드로 변경
+        }
+
+        this.tail = this.head;
+        this.head = previousNode;
+    }
+
+    toString() {
+        const arr = [];
+
+        let currentNode = this.head;
+
+        while (currentNode) {
+            arr.push(currentNode);
+            currentNode = currentNode.next;
+        }
+
+        return arr.map(v => v.value).join(', ');
     }
 }
-
-function display() {
-    let currNode = this.head;
-    while (!(currNode.next === null)) {
-        console.log(currNode.next.element);
-        currNode = currNode.next;
-
-    }
-}
-
-const cities = new LList();
-cities.insert("Conway", "head");
-cities.insert("Conway2", "Conway");
-cities.insert("Conway3", "Conway2");
-cities.remove("Conway");
-cities.display();
