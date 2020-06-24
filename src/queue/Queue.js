@@ -19,11 +19,7 @@ export default class Queue {
     }
 
     peek() {
-        if (!this.linkedList.head) {
-            return null;
-        }
-
-        return this.linkedList.head.value;
+        return this.linkedList.head ? this.linkedList.head.value : null;
     }
 
     toString(callback) {
