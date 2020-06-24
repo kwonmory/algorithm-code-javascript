@@ -20,7 +20,7 @@ describe('LinkedList', () => {
             linkedList.append(1);
             linkedList.append(2);
 
-            expect(linkedList.toString()).toBe('1, 2');
+            expect(linkedList.toString()).toBe('1,2');
             expect(linkedList.tail.next).toBeNull();
             expect(linkedList.head.next.value).toBe(2);
         });
@@ -37,7 +37,7 @@ describe('LinkedList', () => {
             linkedList.append(1);
             linkedList.prepend(3);
 
-            expect(linkedList.toString()).toBe('3, 2, 1');
+            expect(linkedList.toString()).toBe('3,2,1');
         });
     });
 
@@ -57,7 +57,7 @@ describe('LinkedList', () => {
             linkedList.append(2);
             linkedList.append(3);
 
-            expect(linkedList.toString()).toBe('1, 2, 3');
+            expect(linkedList.toString()).toBe('1,2,3');
 
             linkedList.delete(2);
 

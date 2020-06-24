@@ -4,7 +4,7 @@ export default class LinkedListNode {
         this.next = next;
     }
 
-    toString() {
-        return String(this.value);
+    toString(callback) {
+        return callback ? callback(this.value) : `${this.value}`;
     }
 }
